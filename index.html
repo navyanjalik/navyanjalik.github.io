@@ -9,242 +9,370 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 body{margin:0}img{max-width:100%}
-/* Layout: quiet executive one-pager; serif headline + impact ledger up top, then sections divided by fine rules with a left label column */
+/* Layout: dark "night operations" hero with drifting aurora + live impact counters; sticky section nav; light editorial body with a scroll-filled career timeline */
 :root{
-  --bg:#FBFBFC; --surface:#FFFFFF; --fg:#121826; --muted:#586174; --line:#E1E4EB;
-  --navy:#16285A; --accent:#1F4FB8; --tint:#EEF2FA;
+  --bg:#F7F8FC; --surface:#FFFFFF; --fg:#111727; --muted:#566079; --line:#E0E4EE;
+  --navy:#14245A; --accent:#2457D6; --teal:#0E9F8E; --tint:#EDF1FB;
+  --ink:#070D24; --ink-2:#0F1A42; --on-ink:#EEF2FF; --on-ink-muted:#A9B4D6; --glow-a:#3B6BFF; --glow-b:#13C2AE; --glow-c:#7A5CFF;
   --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0E121C; --surface:#151B29; --fg:#EAEDF4; --muted:#9BA4B8; --line:#262E42;
-  --navy:#C9D5FF; --accent:#8FAEFF; --tint:#1A2340; color-scheme:dark}}
+  --bg:#0B1020; --surface:#121931; --fg:#E9EDF7; --muted:#9AA4BE; --line:#232C48;
+  --navy:#CFDAFF; --accent:#86A6FF; --teal:#4FD8C4; --tint:#18213F; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E121C; --surface:#151B29; --fg:#EAEDF4; --muted:#9BA4B8; --line:#262E42;
-  --navy:#C9D5FF; --accent:#8FAEFF; --tint:#1A2340; color-scheme:dark}
+  --bg:#0B1020; --surface:#121931; --fg:#E9EDF7; --muted:#9AA4BE; --line:#232C48;
+  --navy:#CFDAFF; --accent:#86A6FF; --teal:#4FD8C4; --tint:#18213F; color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.65;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:880px;margin:0 auto;padding-block:64px 72px;display:flex;flex-direction:column}
-h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0;line-height:1.15;color:var(--navy)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.65}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--ink)}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0;line-height:1.15}
 p{margin:0}
 a{color:var(--accent)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+:focus-visible{outline:2px solid var(--glow-b);outline-offset:3px;border-radius:4px}
+.inner{max-width:920px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .kicker{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
-/* Hero */
-header{display:flex;flex-direction:column;gap:18px;padding-bottom:40px}
-h1{font-size:clamp(38px,7vw,62px);font-weight:600;letter-spacing:-.015em}
-.title{font-family:var(--serif);font-size:clamp(19px,2.8vw,24px);color:var(--fg);font-weight:400}
-.summary{font-size:17px;color:var(--muted);max-width:62ch}
-.summary b{color:var(--fg);font-weight:600}
-.orgs{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;font-weight:600;color:var(--fg);padding-top:4px}
-.orgs span{color:var(--muted);font-weight:400}
-.cta{display:flex;flex-wrap:wrap;gap:12px;padding-top:6px}
-.btn{font:500 15px var(--sans);padding:11px 20px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;text-decoration:none}
-.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--bg)}
-.btn:hover{border-color:var(--accent)}
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;background:var(--ink);color:var(--on-ink);isolation:isolate}
+.aurora{position:absolute;inset:-20%;z-index:-2;filter:blur(60px);opacity:.75}
+.aurora i{position:absolute;border-radius:50%;mix-blend-mode:screen}
+.aurora i:nth-child(1){width:55%;height:60%;left:5%;top:0;background:radial-gradient(circle,var(--glow-a),transparent 65%);animation:drift1 18s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:50%;height:55%;right:0;top:15%;background:radial-gradient(circle,var(--glow-b),transparent 65%);animation:drift2 22s ease-in-out infinite alternate}
+.aurora i:nth-child(3){width:45%;height:50%;left:35%;bottom:-5%;background:radial-gradient(circle,var(--glow-c),transparent 65%);animation:drift3 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(18%,12%) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-20%,8%) scale(.9)}}
+@keyframes drift3{to{transform:translate(-10%,-18%) scale(1.2)}}
+.grid{position:absolute;inset:0;z-index:-1;background-image:radial-gradient(color-mix(in srgb,var(--on-ink) 22%,transparent) 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(180deg,#000 0%,transparent 95%);-webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 95%)}
+.hero .inner{padding-block:72px 56px;display:flex;flex-direction:column;gap:20px}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--on-ink) 8%,transparent);border:1px solid color-mix(in srgb,var(--on-ink) 18%,transparent);backdrop-filter:blur(6px)}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--glow-b);box-shadow:0 0 0 0 var(--glow-b);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.hero h1{font-size:clamp(42px,8vw,76px);font-weight:600;letter-spacing:-.02em;color:var(--on-ink)}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#9DB6FF,var(--glow-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.thesis{font-family:var(--serif);font-size:clamp(20px,3vw,27px);max-width:30ch;color:var(--on-ink)}
+.rot{display:inline-block;color:var(--glow-b);border-bottom:2px solid color-mix(in srgb,var(--glow-b) 50%,transparent);transition:opacity .35s,transform .35s}
+.rot.out{opacity:0;transform:translateY(-8px)}
+.hero .summary{max-width:62ch;color:var(--on-ink-muted);font-size:17px}
+.hero .summary b{color:var(--on-ink);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:12px;padding-top:4px}
+.btn{font:500 15px var(--sans);padding:12px 22px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px)}
+.hero .btn.primary{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink);box-shadow:0 8px 30px -8px var(--glow-a)}
+.hero .btn.ghost{background:transparent;color:var(--on-ink);border-color:color-mix(in srgb,var(--on-ink) 30%,transparent)}
+.orgs{display:flex;flex-wrap:wrap;gap:8px 26px;padding-top:18px;font-size:14px;font-weight:600;letter-spacing:.04em;color:var(--on-ink-muted)}
+.orgs span{opacity:.5}
 
-/* Impact ledger */
-.ledger{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
-.ledger div{padding:24px 22px 24px 0;display:flex;flex-direction:column;gap:6px;min-width:0}
-.ledger div+div{padding-left:22px;border-left:1px solid var(--line)}
-.num{font-family:var(--serif);font-size:clamp(34px,5vw,46px);font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1}
-.ledger p{font-size:14.5px;color:var(--muted)}
-.ledger p b{color:var(--fg);font-weight:600;display:block}
+/* Impact ledger (glass) */
+.ledger{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.stat{padding:22px;border-radius:14px;background:color-mix(in srgb,var(--on-ink) 6%,transparent);border:1px solid color-mix(in srgb,var(--on-ink) 14%,transparent);backdrop-filter:blur(10px);display:flex;flex-direction:column;gap:6px;min-width:0;transition:transform .25s,border-color .25s}
+.stat:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--glow-b) 60%,transparent)}
+.num{font-family:var(--serif);font-size:clamp(38px,6vw,54px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--on-ink)}
+.stat b{font-size:15px;color:var(--on-ink);font-weight:600}
+.stat p{font-size:14px;color:var(--on-ink-muted)}
 
-/* Sections */
-section{display:grid;grid-template-columns:180px 1fr;gap:28px;padding-block:40px;border-bottom:1px solid var(--line)}
-section > .kicker{padding-top:6px}
-.body{display:flex;flex-direction:column;gap:18px;min-width:0}
-h2{font-size:clamp(24px,3.4vw,30px);font-weight:600}
-.prose{max-width:64ch}
-.prose+.prose{margin-top:-4px}
-.three{display:grid;grid-template-columns:1fr;gap:0}
-.item{display:grid;grid-template-columns:170px 1fr;gap:20px;padding-block:16px;border-top:1px solid var(--line)}
-.item:first-child{border-top:0;padding-top:0}
-.item .kicker{padding-top:4px}
-.item h3{font-size:20px;font-weight:600}
-.item p{font-size:15.5px;color:var(--muted);margin-top:4px}
-.proofs{display:flex;flex-direction:column;gap:14px;counter-reset:p}
-.pf{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
-.pf::before{counter-increment:p;content:counter(p);font-family:var(--serif);font-weight:700;font-size:18px;color:var(--bg);background:var(--navy);width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
-.pf h3{font-size:18px;font-weight:600}
-.pf p{font-size:15.5px;color:var(--muted);margin-top:2px}
-.skills{display:grid;grid-template-columns:130px 1fr;gap:10px 18px;margin:0}
-.skills dt{font-size:13px;font-weight:600;color:var(--muted);padding-top:3px}
-.skills dd{margin:0;display:flex;flex-wrap:wrap;gap:6px}
-.chip{font-size:13.5px;padding:3px 10px;border-radius:4px;background:var(--tint);color:var(--fg)}
-.job{display:flex;flex-direction:column;gap:6px;padding-block:18px;border-top:1px solid var(--line)}
-.job:first-child{border-top:0;padding-top:0}
+/* ---------- Sticky nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .inner{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-block:10px}
+.nav .inner::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;padding:6px 14px;border-radius:999px;transition:background .2s,color .2s}
+.nav a:hover{color:var(--fg)}
+.nav a.on{background:var(--navy);color:var(--bg)}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--accent),var(--teal))}
+
+/* ---------- Sections ---------- */
+main section{padding-block:64px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+main section .inner{display:flex;flex-direction:column;gap:24px}
+h2{font-size:clamp(28px,4.4vw,40px);font-weight:600;color:var(--navy);letter-spacing:-.01em}
+.head{display:flex;flex-direction:column;gap:8px}
+.reveal{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.pre{transform:translateY(24px)}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{position:relative;padding:26px 22px;border-radius:16px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px;min-width:0;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card::after{content:"";position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--accent) 12%,transparent),transparent 45%);opacity:0;transition:opacity .3s;pointer-events:none}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 18px 40px -22px color-mix(in srgb,var(--accent) 60%,transparent)}
+.card:hover::after{opacity:1}
+.card .kicker{color:var(--teal)}
+.card h3{font-size:22px;font-weight:600;color:var(--navy)}
+.card p{font-size:15px;color:var(--muted)}
+
+.proofs{display:grid;gap:14px}
+.pf{display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;padding:20px 22px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.pf .n{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:20px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--teal))}
+.pf h3{font-size:19px;font-weight:600;color:var(--navy)}
+.pf p{font-size:15.5px;color:var(--muted);margin-top:4px}
+
+.about{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
+.about .prose{display:flex;flex-direction:column;gap:14px;max-width:62ch}
+.edu{padding:22px;border-radius:14px;background:var(--tint);display:flex;flex-direction:column;gap:6px}
+.edu h3{font-size:20px;color:var(--navy)}
+.edu p{color:var(--muted);font-size:15px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font:500 14px var(--sans);padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .2s}
+.filters button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:14px;padding:7px 14px;border-radius:8px;background:var(--surface);border:1px solid var(--line);color:var(--fg);transition:opacity .25s,transform .25s,background .25s,border-color .25s}
+.chip.dim{opacity:.28;transform:scale(.96)}
+.chip.hit{background:var(--tint);border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+
+.timeline{position:relative;padding-left:34px;display:flex;flex-direction:column;gap:28px}
+.timeline::before,.tl-fill{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;border-radius:2px}
+.timeline::before{background:var(--line)}
+.tl-fill{background:linear-gradient(180deg,var(--accent),var(--teal));transform-origin:top;transform:scaleY(1)}
+.job{position:relative;display:flex;flex-direction:column;gap:6px}
+.job::before{content:"";position:absolute;left:-31px;top:7px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
 .jh{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline}
-.job h3{font-size:19px;font-weight:600}
+.job h3{font-size:21px;font-weight:600;color:var(--navy)}
 .job h3 span{font-family:var(--sans);font-size:15px;color:var(--muted);font-weight:400}
 .when{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.job ul{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:15.5px;color:var(--muted)}
+.job ul{margin:2px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:15.5px;color:var(--muted)}
 .job ul b{color:var(--fg);font-weight:600}
-.results{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:15px;min-width:460px}
-th,td{text-align:left;padding:11px 14px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-tr:last-child td{border-bottom:0}
-td.m{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
-.contact .row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-.email{font-family:var(--mono);font-size:15px;user-select:all;word-break:break-all;color:var(--fg)}
-footer{padding-top:28px;font-size:13px;color:var(--muted)}
 
-@media (max-width:700px){
-  section{grid-template-columns:1fr;gap:12px;padding-block:32px}
-  .ledger{grid-template-columns:1fr}
-  .ledger div,.ledger div+div{padding:18px 0;border-left:0}
-  .ledger div+div{border-top:1px solid var(--line)}
-  .item,.skills{grid-template-columns:1fr;gap:4px}
-  .wrap{padding-block:40px 48px}
+.results{border-radius:16px;border:1px solid var(--line);background:var(--surface);overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:480px}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:var(--tint)}
+tr:last-child td{border-bottom:0}
+td.m{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* ---------- Contact ---------- */
+.contact{position:relative;overflow:hidden;background:var(--ink);color:var(--on-ink);isolation:isolate}
+.contact .aurora{opacity:.55}
+.contact .inner{padding-block:72px;display:flex;flex-direction:column;gap:18px}
+.contact h2{color:var(--on-ink);font-size:clamp(32px,5vw,48px)}
+.contact p{color:var(--on-ink-muted);max-width:52ch;font-size:17px}
+.contact .row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.email{font-family:var(--mono);font-size:16px;user-select:all;word-break:break-all;padding:12px 16px;border-radius:8px;background:color-mix(in srgb,var(--on-ink) 8%,transparent);border:1px solid color-mix(in srgb,var(--on-ink) 16%,transparent)}
+.contact .btn.primary{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}
+.contact .btn.ghost{background:transparent;color:var(--on-ink);border-color:color-mix(in srgb,var(--on-ink) 30%,transparent)}
+footer{background:var(--ink);color:var(--on-ink-muted);font-size:13px}
+footer .inner{padding-block:20px 28px;border-top:1px solid color-mix(in srgb,var(--on-ink) 12%,transparent)}
+
+@media (max-width:760px){
+  .ledger,.cards{grid-template-columns:1fr}
+  .about{grid-template-columns:1fr}
+  .hero .inner{padding-block:48px 40px}
+  main section{padding-block:48px}
+  .pf{grid-template-columns:1fr;gap:12px}
 }
-@media (prefers-reduced-motion:no-preference){.btn{transition:border-color .15s}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .aurora i,.pulse{animation:none}
+  .reveal,.reveal.pre{transform:none;transition:none}
+  .btn,.card,.stat,.chip,.rot{transition:none}
+}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header>
-    <span class="kicker">Senior Software Engineer · Backend & Test Automation</span>
-    <h1>Navyanjali Kondapaneni</h1>
-    <p class="title">I build the backend systems people rely on to book a flight, pay off a mortgage, and run a store.</p>
-    <p class="summary">Six years designing <b>Java and Spring Boot microservices</b> for Southwest Airlines, US Bank and Apple. I pair clean API design with rigorous automated testing, and I measure my work in <b>dollars saved, hours returned, and milliseconds cut</b>. M.S. Computer Science, Georgia State University (GPA 3.8).</p>
-    <div class="orgs">Southwest Airlines <span>/</span> US Bank <span>/</span> Apple <span>/</span> Deloitte</div>
+<header class="hero">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="inner">
+    <span class="badge"><span class="pulse"></span>Open to Senior Backend, Platform & SDET roles</span>
+    <h1>Navyanjali <em>Kondapaneni</em></h1>
+    <p class="thesis">I build the backend systems people rely on to <span class="rot" id="rot">book a flight</span>.</p>
+    <p class="summary">Senior Software Engineer with 6+ years designing <b>Java and Spring Boot microservices</b> for Southwest Airlines, US Bank and Apple. I pair clean API design with rigorous test automation, and I measure my work in <b>dollars saved, hours returned and time cut</b>.</p>
     <div class="cta">
       <a class="btn primary" href="#contact">Contact me</a>
-      <a class="btn" href="#experience">View experience</a>
+      <a class="btn ghost" href="#experience">View experience</a>
     </div>
-  </header>
-
-  <div class="ledger" aria-label="Headline results">
-    <div><span class="num">$700K</span><p><b>Annual savings</b>Paperless billing feature I built at US Bank</p></div>
-    <div><span class="num">80%</span><p><b>Less manual testing</b>Automated regression suites at Southwest Airlines</p></div>
-    <div><span class="num">30%</span><p><b>Faster processing</b>Oracle SQL optimization and tuning at US Bank</p></div>
+    <div class="ledger" aria-label="Headline results">
+      <div class="stat"><span class="num" data-to="700" data-pre="$" data-suf="K">$700K</span><b>Saved every year</b><p>Paperless billing feature I built at US Bank</p></div>
+      <div class="stat"><span class="num" data-to="80" data-suf="%">80%</span><b>Less manual testing</b><p>Automated regression suites at Southwest Airlines</p></div>
+      <div class="stat"><span class="num" data-to="30" data-suf="%">30%</span><b>Faster processing</b><p>Oracle SQL optimization and tuning at US Bank</p></div>
+    </div>
+    <div class="orgs">Southwest Airlines <span>/</span> US Bank <span>/</span> Apple <span>/</span> Deloitte</div>
   </div>
+</header>
 
-  <section aria-labelledby="hl-h">
-    <span class="kicker">Highlights</span>
-    <div class="body">
-      <h2 id="hl-h">What I do best</h2>
-      <div class="three">
-        <div class="item"><span class="kicker">Strongest skill</span><div><h3>Microservice and API design</h3><p>Designing and shipping Java and Spring Boot services and REST APIs for customer-critical, high-traffic flows, from flight booking to real-time flight status.</p></div></div>
-        <div class="item"><span class="kicker">Top accomplishment</span><div><h3>$700,000 saved every year</h3><p>Delivered US Bank's paperless-preferences feature end to end, backend services plus a React front end for desktop and mobile, eliminating $700K in annual print and mail cost.</p></div></div>
-        <div class="item"><span class="kicker">Signature project</span><div><h3>GILL, the Global Loan Locator</h3><p>Designed and built US Bank's loan-locator microservice from a blank repository: loan-management features, performance optimization and 80%+ test coverage.</p></div></div>
+<nav class="nav" aria-label="Sections">
+  <div class="inner">
+    <a href="#highlights">Highlights</a><a href="#proof">Proof</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#results">Results</a><a href="#contact">Contact</a>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<main>
+  <section id="highlights"><div class="inner">
+    <div class="head reveal"><span class="kicker">Highlights</span><h2>What I do best</h2></div>
+    <div class="cards">
+      <article class="card reveal"><span class="kicker">Strongest skill</span><h3>Microservice and API design</h3><p>Designing and shipping Java and Spring Boot services and REST APIs for customer-critical, high-traffic flows, from flight booking to real-time flight status.</p></article>
+      <article class="card reveal"><span class="kicker">Top accomplishment</span><h3>$700,000 saved every year</h3><p>Delivered US Bank's paperless-preferences feature end to end, backend services plus a React front end for desktop and mobile, eliminating $700K in annual print and mail cost.</p></article>
+      <article class="card reveal"><span class="kicker">Signature project</span><h3>GILL, the Global Loan Locator</h3><p>Designed and built US Bank's loan-locator microservice from a blank repository: loan-management features, performance optimization and 80%+ test coverage.</p></article>
+    </div>
+  </div></section>
+
+  <section id="proof"><div class="inner">
+    <div class="head reveal"><span class="kicker">Proof</span><h2>Three reasons I can do this job</h2></div>
+    <div class="proofs">
+      <div class="pf reveal"><span class="n">1</span><div><h3>I deliver measurable business value</h3><p>My paperless billing work saves US Bank $700K a year, and my query tuning cut processing time by 30%.</p></div></div>
+      <div class="pf reveal"><span class="n">2</span><div><h3>I make teams ship faster and safer</h3><p>At Southwest Airlines I replaced 80% of manual testing with Selenium and REST Assured automation; at US Bank I held coverage above 80% and cleared Sonar quality gates.</p></div></div>
+      <div class="pf reveal"><span class="n">3</span><div><h3>I've been trusted with critical systems at scale</h3><p>Airline booking and cancellations, mortgage and loan services, and Apple Store systems used by retail teams around the world.</p></div></div>
+    </div>
+  </div></section>
+
+  <section id="about"><div class="inner">
+    <div class="head reveal"><span class="kicker">About</span><h2>About me</h2></div>
+    <div class="about">
+      <div class="prose reveal">
+        <p>I'm a backend engineer who thinks like a tester. I've spent my career on systems where an outage costs real money and real trust, and that has shaped how I work: clear API contracts, code that's easy to review, and automated tests that let a team release with confidence.</p>
+        <p>I started in cybersecurity and quality engineering at Deloitte, earned my M.S. in Computer Science at Georgia State, and have since built production services at Apple, US Bank and Southwest Airlines. I'm now going deeper into cloud platforms, distributed systems and scalable architecture.</p>
       </div>
+      <div class="edu reveal"><span class="kicker">Education</span><h3>M.S. Computer Science</h3><p>Georgia State University · GPA 3.8</p></div>
     </div>
-  </section>
+  </div></section>
 
-  <section aria-labelledby="proof-h">
-    <span class="kicker">Proof</span>
-    <div class="body">
-      <h2 id="proof-h">Three reasons I can do this job</h2>
-      <div class="proofs">
-        <div class="pf"><div><h3>I deliver measurable business value</h3><p>My paperless billing work saves US Bank $700K a year, and my query tuning cut processing time by 30%.</p></div></div>
-        <div class="pf"><div><h3>I make teams ship faster and safer</h3><p>At Southwest Airlines I replaced 80% of manual testing with Selenium and REST Assured automation; at US Bank I held coverage above 80% and cleared Sonar quality gates.</p></div></div>
-        <div class="pf"><div><h3>I've been trusted with critical systems at scale</h3><p>Airline booking and cancellations, mortgage and loan services, and Apple Store systems used by retail teams around the world.</p></div></div>
-      </div>
+  <section id="skills"><div class="inner">
+    <div class="head reveal"><span class="kicker">Skills</span><h2>Technical skills</h2></div>
+    <div class="filters" role="group" aria-label="Filter skills">
+      <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
+      <button type="button" id="f-backend" data-f="backend" aria-pressed="false">Backend</button>
+      <button type="button" id="f-testing" data-f="testing" aria-pressed="false">Testing</button>
+      <button type="button" id="f-data" data-f="data" aria-pressed="false">Data</button>
+      <button type="button" id="f-devops" data-f="devops" aria-pressed="false">Cloud & DevOps</button>
+      <button type="button" id="f-frontend" data-f="frontend" aria-pressed="false">Frontend</button>
     </div>
-  </section>
-
-  <section aria-labelledby="about-h">
-    <span class="kicker">About</span>
-    <div class="body">
-      <h2 id="about-h">About me</h2>
-      <p class="prose">I'm a backend engineer who thinks like a tester. I've spent my career on systems where an outage costs real money and real trust, and that has shaped how I work: clear API contracts, code that's easy to review, and automated tests that let a team release with confidence.</p>
-      <p class="prose">I started in cybersecurity and quality engineering at Deloitte, earned my M.S. in Computer Science at Georgia State, and have since built production services at Apple, US Bank and Southwest Airlines. I'm now going deeper into cloud platforms, distributed systems and scalable architecture.</p>
+    <div class="chips" id="chips">
+      <span class="chip" data-c="backend">Java</span><span class="chip" data-c="backend">Spring Boot</span><span class="chip" data-c="backend">Spring</span><span class="chip" data-c="backend">Microservices</span><span class="chip" data-c="backend">REST APIs</span><span class="chip" data-c="backend">Hibernate / JPA</span><span class="chip" data-c="backend">SOAP</span><span class="chip" data-c="backend">OAuth2 / JWT</span><span class="chip" data-c="backend">Kafka</span>
+      <span class="chip" data-c="testing">JUnit</span><span class="chip" data-c="testing">TestNG</span><span class="chip" data-c="testing">Mockito</span><span class="chip" data-c="testing">REST Assured</span><span class="chip" data-c="testing">Selenium</span><span class="chip" data-c="testing">Cucumber</span>
+      <span class="chip" data-c="data">SQL</span><span class="chip" data-c="data">Oracle</span><span class="chip" data-c="data">SQL Server</span><span class="chip" data-c="data">MongoDB</span><span class="chip" data-c="data">Redis</span><span class="chip" data-c="data">AWS S3</span>
+      <span class="chip" data-c="devops">Docker</span><span class="chip" data-c="devops">Kubernetes</span><span class="chip" data-c="devops">Jenkins</span><span class="chip" data-c="devops">CloudBees CI</span><span class="chip" data-c="devops">Splunk</span><span class="chip" data-c="devops">Grafana</span><span class="chip" data-c="devops">OpenTelemetry</span>
+      <span class="chip" data-c="frontend">React</span><span class="chip" data-c="frontend">Angular</span><span class="chip" data-c="frontend">Vue</span><span class="chip" data-c="frontend">JavaScript</span>
     </div>
-  </section>
+  </div></section>
 
-  <section aria-labelledby="skills-h">
-    <span class="kicker">Skills</span>
-    <div class="body">
-      <h2 id="skills-h">Technical skills</h2>
-      <dl class="skills">
-        <dt>Languages</dt><dd><span class="chip">Java</span><span class="chip">SQL</span><span class="chip">JavaScript</span><span class="chip">C / C++</span></dd>
-        <dt>Backend</dt><dd><span class="chip">Spring Boot</span><span class="chip">Spring</span><span class="chip">Hibernate / JPA</span><span class="chip">REST</span><span class="chip">SOAP</span><span class="chip">OAuth2 / JWT</span><span class="chip">Kafka</span></dd>
-        <dt>Testing</dt><dd><span class="chip">JUnit</span><span class="chip">TestNG</span><span class="chip">Mockito</span><span class="chip">REST Assured</span><span class="chip">Selenium</span><span class="chip">Cucumber</span></dd>
-        <dt>Data</dt><dd><span class="chip">Oracle</span><span class="chip">SQL Server</span><span class="chip">MongoDB</span><span class="chip">Redis</span><span class="chip">AWS S3</span></dd>
-        <dt>Cloud & DevOps</dt><dd><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Jenkins</span><span class="chip">CloudBees CI</span><span class="chip">Splunk</span><span class="chip">Grafana</span><span class="chip">OpenTelemetry</span></dd>
-        <dt>Frontend</dt><dd><span class="chip">React</span><span class="chip">Angular</span><span class="chip">Vue</span></dd>
-      </dl>
+  <section id="experience"><div class="inner">
+    <div class="head reveal"><span class="kicker">Experience</span><h2>Experience and projects</h2></div>
+    <div class="timeline" id="timeline">
+      <div class="tl-fill" id="tlfill" aria-hidden="true"></div>
+      <div class="job reveal"><div class="jh"><h3>Southwest Airlines <span>· Senior Software Engineer</span></h3><span class="when">Mar 2024 – Present</span></div>
+        <ul>
+          <li>Build microservices behind <b>booking, change and cancellation</b> flows.</li>
+          <li>Designed REST APIs for the <b>Inbound Flight Tracker</b> and Day of Travel features, delivering real-time flight status.</li>
+          <li>Automated functional and regression testing, <b>reducing manual testing by 80%</b>.</li>
+        </ul></div>
+      <div class="job reveal"><div class="jh"><h3>US Bank <span>· Software Engineer</span></h3><span class="when">Apr 2021 – Feb 2024</span></div>
+        <ul>
+          <li>Built the <b>GILL</b> microservice from scratch, plus mortgage fast-refund, payoff-quote and paperless-preferences services.</li>
+          <li>Shipped paperless billing that <b>saves $700K annually</b>.</li>
+          <li>Improved processing time <b>30%</b> through Oracle SQL tuning; kept test coverage <b>above 80%</b>.</li>
+        </ul></div>
+      <div class="job reveal"><div class="jh"><h3>Apple <span>· Software Engineer</span></h3><span class="when">Nov 2020 – Mar 2021</span></div>
+        <ul>
+          <li>Built backend services for <b>Apple Store event management</b>, used by retail teams across regions.</li>
+          <li>Migrated legacy Spring services to Spring Boot for faster startup and consistent deployments.</li>
+        </ul></div>
+      <div class="job reveal"><div class="jh"><h3>Deloitte <span>· Business Technology Analyst</span></h3><span class="when">Jul 2017 – Dec 2018</span></div>
+        <ul>
+          <li>Cybersecurity monitoring with QRadar, Splunk and LogRhythm; wrote 21 CFR Part 11 compliant test specifications.</li>
+        </ul></div>
     </div>
-  </section>
+  </div></section>
 
-  <section aria-labelledby="experience">
-    <span class="kicker">Experience</span>
-    <div class="body">
-      <h2 id="experience">Experience and projects</h2>
-      <div>
-        <div class="job"><div class="jh"><h3>Southwest Airlines <span>· Senior Software Engineer</span></h3><span class="when">Mar 2024 – Present</span></div>
-          <ul>
-            <li>Build microservices behind <b>booking, change and cancellation</b> flows.</li>
-            <li>Designed REST APIs for the <b>Inbound Flight Tracker</b> and Day of Travel features, delivering real-time flight status.</li>
-            <li>Automated functional and regression testing, <b>reducing manual testing by 80%</b>.</li>
-          </ul></div>
-        <div class="job"><div class="jh"><h3>US Bank <span>· Software Engineer</span></h3><span class="when">Apr 2021 – Feb 2024</span></div>
-          <ul>
-            <li>Built the <b>GILL</b> microservice from scratch, plus mortgage fast-refund, payoff-quote and paperless-preferences services.</li>
-            <li>Shipped paperless billing that <b>saves $700K annually</b>.</li>
-            <li>Improved processing time <b>30%</b> through Oracle SQL tuning; kept test coverage <b>above 80%</b>.</li>
-          </ul></div>
-        <div class="job"><div class="jh"><h3>Apple <span>· Software Engineer</span></h3><span class="when">Nov 2020 – Mar 2021</span></div>
-          <ul>
-            <li>Built backend services for <b>Apple Store event management</b>, used by retail teams across regions.</li>
-            <li>Migrated legacy Spring services to Spring Boot for faster startup and consistent deployments.</li>
-          </ul></div>
-        <div class="job"><div class="jh"><h3>Deloitte <span>· Business Technology Analyst</span></h3><span class="when">Jul 2017 – Dec 2018</span></div>
-          <ul>
-            <li>Cybersecurity monitoring with QRadar, Splunk and LogRhythm; wrote 21 CFR Part 11 compliant test specifications.</li>
-          </ul></div>
-      </div>
+  <section id="results"><div class="inner">
+    <div class="head reveal"><span class="kicker">Results</span><h2>Results and metrics</h2></div>
+    <div class="results reveal"><table>
+      <thead><tr><th>Result</th><th>What I did</th><th>Company</th></tr></thead>
+      <tbody>
+        <tr><td class="m"><span data-to="700" data-pre="$" data-suf="K / yr">$700K / yr</span></td><td>Paperless billing feature, backend and front end</td><td>US Bank</td></tr>
+        <tr><td class="m"><span data-to="80" data-pre="−" data-suf="%">−80%</span></td><td>Manual testing replaced by automated regression suites</td><td>Southwest</td></tr>
+        <tr><td class="m"><span data-to="30" data-pre="−" data-suf="%">−30%</span></td><td>Processing time after SQL optimization and tuning</td><td>US Bank</td></tr>
+        <tr><td class="m"><span data-to="80" data-suf="%+">80%+</span></td><td>Unit test coverage with JUnit and TestNG</td><td>US Bank</td></tr>
+        <tr><td class="m"><span data-to="6" data-suf="+ yrs">6+ yrs</span></td><td>Backend engineering across airline, banking and retail</td><td>4 companies</td></tr>
+      </tbody>
+    </table></div>
+  </div></section>
+</main>
+
+<section class="contact" id="contact" aria-labelledby="contact-h">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="inner">
+    <span class="kicker" style="color:var(--on-ink-muted)">Contact</span>
+    <h2 id="contact-h">Let's build something reliable.</h2>
+    <p>I'm open to senior backend, platform and SDET roles. Email is the fastest way to reach me.</p>
+    <div class="row">
+      <span class="email" id="email">navyanjalikondapaneni@gmail.com</span>
+      <button class="btn primary" id="copy" type="button">Copy email</button>
+      <a class="btn ghost" href="mailto:navyanjalikondapaneni@gmail.com">Send email</a>
     </div>
-  </section>
-
-  <section aria-labelledby="results-h">
-    <span class="kicker">Results</span>
-    <div class="body">
-      <h2 id="results-h">Results and metrics</h2>
-      <div class="results"><table>
-        <thead><tr><th>Result</th><th>What I did</th><th>Company</th></tr></thead>
-        <tbody>
-          <tr><td class="m">$700K / yr</td><td>Paperless billing feature, backend and front end</td><td>US Bank</td></tr>
-          <tr><td class="m">−80%</td><td>Manual testing replaced by automated regression suites</td><td>Southwest</td></tr>
-          <tr><td class="m">−30%</td><td>Processing time after SQL optimization and tuning</td><td>US Bank</td></tr>
-          <tr><td class="m">80%+</td><td>Unit test coverage with JUnit and TestNG</td><td>US Bank</td></tr>
-          <tr><td class="m">6+ yrs</td><td>Backend engineering across airline, banking and retail</td><td>4 companies</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-  </section>
-
-  <section class="contact" id="contact" aria-labelledby="contact-h">
-    <span class="kicker">Contact</span>
-    <div class="body">
-      <h2 id="contact-h">Let's talk</h2>
-      <p class="prose">I'm open to senior backend, platform and SDET roles. Email is the fastest way to reach me.</p>
-      <div class="row">
-        <span class="email" id="email">navyanjalikondapaneni@gmail.com</span>
-        <button class="btn primary" id="copy" type="button">Copy email</button>
-        <a class="btn" href="mailto:navyanjalikondapaneni@gmail.com">Send email</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>Navyanjali Kondapaneni · Senior Software Engineer</footer>
-</div>
+  </div>
+</section>
+<footer><div class="inner">Navyanjali Kondapaneni · Senior Software Engineer</div></footer>
 
 <script>
-document.getElementById('copy').addEventListener('click',function(){
-  var b=this, el=document.getElementById('email'), t=el.textContent;
-  function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},1600)}
-  function fallback(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected, press Ctrl+C'}
-  try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
-});
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+
+  // Rotating headline phrase
+  var phrases=['book a flight','pay off a mortgage','run a store'], i=0, rot=document.getElementById('rot');
+  if(!reduce) setInterval(function(){
+    rot.classList.add('out');
+    setTimeout(function(){ i=(i+1)%phrases.length; rot.textContent=phrases[i]; rot.classList.remove('out'); },350);
+  },2600);
+
+  // Count-up numbers: final values are in the HTML; animate once when they come into view
+  function countUp(el){
+    var to=+el.dataset.to, pre=el.dataset.pre||'', suf=el.dataset.suf||'', t0=null, dur=1400;
+    function step(t){ if(!t0)t0=t; var p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=pre+Math.round(to*e)+suf; if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var nums=document.querySelectorAll('[data-to]');
+  if(!reduce && hasIO){
+    var nio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); nio.unobserve(e.target);} }); },{threshold:.6});
+    nums.forEach(function(n){ nio.observe(n); });
+  }
+
+  // Reveal: elements stay visible; ones below the fold get a gentle lift as they enter
+  if(!reduce && hasIO){
+    var vh=innerHeight, rio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('pre'); rio.unobserve(e.target);} }); },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ if(el.getBoundingClientRect().top>vh){ el.classList.add('pre'); rio.observe(el);} });
+  }
+
+  // Card spotlight follows the cursor
+  document.querySelectorAll('.card').forEach(function(c){
+    c.addEventListener('pointermove',function(ev){ var r=c.getBoundingClientRect(); c.style.setProperty('--mx',(ev.clientX-r.left)+'px'); c.style.setProperty('--my',(ev.clientY-r.top)+'px'); });
+  });
+
+  // Skill filters
+  var btns=document.querySelectorAll('.filters button'), chips=document.querySelectorAll('.chip');
+  btns.forEach(function(b){ b.addEventListener('click',function(){
+    var f=b.dataset.f; btns.forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+    chips.forEach(function(c){ var m=f==='all'||c.dataset.c===f; c.classList.toggle('dim',!m); c.classList.toggle('hit',m&&f!=='all'); });
+  }); });
+
+  // Scroll progress, active nav link, timeline fill
+  var bar=document.getElementById('progress'), links=document.querySelectorAll('.nav a'), fill=document.getElementById('tlfill'), tl=document.getElementById('timeline');
+  var secs=Array.prototype.map.call(links,function(a){ return document.querySelector(a.getAttribute('href')); });
+  var ticking=false;
+  function onScroll(){
+    var h=document.documentElement, max=h.scrollHeight-innerHeight;
+    bar.style.transform='scaleX('+(max>0?scrollY/max:0)+')';
+    var cur=-1; secs.forEach(function(s,k){ if(s && s.getBoundingClientRect().top<innerHeight*0.35) cur=k; });
+    links.forEach(function(a,k){ a.classList.toggle('on',k===cur); });
+    if(!reduce){ var r=tl.getBoundingClientRect(), p=(innerHeight*0.7-r.top)/r.height; fill.style.transform='scaleY('+Math.max(0,Math.min(1,p))+')'; }
+    ticking=false;
+  }
+  addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(onScroll);} },{passive:true});
+  addEventListener('resize',onScroll); onScroll();
+
+  // Copy email
+  document.getElementById('copy').addEventListener('click',function(){
+    var b=this, el=document.getElementById('email'), t=el.textContent;
+    function done(){ b.textContent='Copied'; setTimeout(function(){ b.textContent='Copy email'; },1600); }
+    function fallback(){ var r=document.createRange(); r.selectNodeContents(el); var s=getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent='Selected, press Ctrl+C'; }
+    try{ navigator.clipboard.writeText(t).then(done,fallback); }catch(e){ fallback(); }
+  });
+})();
 </script>
 </body>
 </html>
