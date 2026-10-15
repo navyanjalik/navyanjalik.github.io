@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Navyanjali Kondapaneni, Senior Software Engineer: Java and Spring Boot microservices, API design and test automation.">
+<title>Navyanjali Kondapaneni</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+body{margin:0}img{max-width:100%}
+/* Layout: quiet executive one-pager; serif headline + impact ledger up top, then sections divided by fine rules with a left label column */
+:root{
+  --bg:#FBFBFC; --surface:#FFFFFF; --fg:#121826; --muted:#586174; --line:#E1E4EB;
+  --navy:#16285A; --accent:#1F4FB8; --tint:#EEF2FA;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E121C; --surface:#151B29; --fg:#EAEDF4; --muted:#9BA4B8; --line:#262E42;
+  --navy:#C9D5FF; --accent:#8FAEFF; --tint:#1A2340; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E121C; --surface:#151B29; --fg:#EAEDF4; --muted:#9BA4B8; --line:#262E42;
+  --navy:#C9D5FF; --accent:#8FAEFF; --tint:#1A2340; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:880px;margin:0 auto;padding-block:64px 72px;display:flex;flex-direction:column}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0;line-height:1.15;color:var(--navy)}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* Hero */
+header{display:flex;flex-direction:column;gap:18px;padding-bottom:40px}
+h1{font-size:clamp(38px,7vw,62px);font-weight:600;letter-spacing:-.015em}
+.title{font-family:var(--serif);font-size:clamp(19px,2.8vw,24px);color:var(--fg);font-weight:400}
+.summary{font-size:17px;color:var(--muted);max-width:62ch}
+.summary b{color:var(--fg);font-weight:600}
+.orgs{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;font-weight:600;color:var(--fg);padding-top:4px}
+.orgs span{color:var(--muted);font-weight:400}
+.cta{display:flex;flex-wrap:wrap;gap:12px;padding-top:6px}
+.btn{font:500 15px var(--sans);padding:11px 20px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--bg)}
+.btn:hover{border-color:var(--accent)}
+
+/* Impact ledger */
+.ledger{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+.ledger div{padding:24px 22px 24px 0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ledger div+div{padding-left:22px;border-left:1px solid var(--line)}
+.num{font-family:var(--serif);font-size:clamp(34px,5vw,46px);font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1}
+.ledger p{font-size:14.5px;color:var(--muted)}
+.ledger p b{color:var(--fg);font-weight:600;display:block}
+
+/* Sections */
+section{display:grid;grid-template-columns:180px 1fr;gap:28px;padding-block:40px;border-bottom:1px solid var(--line)}
+section > .kicker{padding-top:6px}
+.body{display:flex;flex-direction:column;gap:18px;min-width:0}
+h2{font-size:clamp(24px,3.4vw,30px);font-weight:600}
+.prose{max-width:64ch}
+.prose+.prose{margin-top:-4px}
+.three{display:grid;grid-template-columns:1fr;gap:0}
+.item{display:grid;grid-template-columns:170px 1fr;gap:20px;padding-block:16px;border-top:1px solid var(--line)}
+.item:first-child{border-top:0;padding-top:0}
+.item .kicker{padding-top:4px}
+.item h3{font-size:20px;font-weight:600}
+.item p{font-size:15.5px;color:var(--muted);margin-top:4px}
+.proofs{display:flex;flex-direction:column;gap:14px;counter-reset:p}
+.pf{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
+.pf::before{counter-increment:p;content:counter(p);font-family:var(--serif);font-weight:700;font-size:18px;color:var(--bg);background:var(--navy);width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
+.pf h3{font-size:18px;font-weight:600}
+.pf p{font-size:15.5px;color:var(--muted);margin-top:2px}
+.skills{display:grid;grid-template-columns:130px 1fr;gap:10px 18px;margin:0}
+.skills dt{font-size:13px;font-weight:600;color:var(--muted);padding-top:3px}
+.skills dd{margin:0;display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13.5px;padding:3px 10px;border-radius:4px;background:var(--tint);color:var(--fg)}
+.job{display:flex;flex-direction:column;gap:6px;padding-block:18px;border-top:1px solid var(--line)}
+.job:first-child{border-top:0;padding-top:0}
+.jh{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline}
+.job h3{font-size:19px;font-weight:600}
+.job h3 span{font-family:var(--sans);font-size:15px;color:var(--muted);font-weight:400}
+.when{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.job ul{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:15.5px;color:var(--muted)}
+.job ul b{color:var(--fg);font-weight:600}
+.results{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:460px}
+th,td{text-align:left;padding:11px 14px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.m{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
+.contact .row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.email{font-family:var(--mono);font-size:15px;user-select:all;word-break:break-all;color:var(--fg)}
+footer{padding-top:28px;font-size:13px;color:var(--muted)}
+
+@media (max-width:700px){
+  section{grid-template-columns:1fr;gap:12px;padding-block:32px}
+  .ledger{grid-template-columns:1fr}
+  .ledger div,.ledger div+div{padding:18px 0;border-left:0}
+  .ledger div+div{border-top:1px solid var(--line)}
+  .item,.skills{grid-template-columns:1fr;gap:4px}
+  .wrap{padding-block:40px 48px}
+}
+@media (prefers-reduced-motion:no-preference){.btn{transition:border-color .15s}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="kicker">Senior Software Engineer · Backend & Test Automation</span>
+    <h1>Navyanjali Kondapaneni</h1>
+    <p class="title">I build the backend systems people rely on to book a flight, pay off a mortgage, and run a store.</p>
+    <p class="summary">Six years designing <b>Java and Spring Boot microservices</b> for Southwest Airlines, US Bank and Apple. I pair clean API design with rigorous automated testing, and I measure my work in <b>dollars saved, hours returned, and milliseconds cut</b>. M.S. Computer Science, Georgia State University (GPA 3.8).</p>
+    <div class="orgs">Southwest Airlines <span>/</span> US Bank <span>/</span> Apple <span>/</span> Deloitte</div>
+    <div class="cta">
+      <a class="btn primary" href="#contact">Contact me</a>
+      <a class="btn" href="#experience">View experience</a>
+    </div>
+  </header>
+
+  <div class="ledger" aria-label="Headline results">
+    <div><span class="num">$700K</span><p><b>Annual savings</b>Paperless billing feature I built at US Bank</p></div>
+    <div><span class="num">80%</span><p><b>Less manual testing</b>Automated regression suites at Southwest Airlines</p></div>
+    <div><span class="num">30%</span><p><b>Faster processing</b>Oracle SQL optimization and tuning at US Bank</p></div>
+  </div>
+
+  <section aria-labelledby="hl-h">
+    <span class="kicker">Highlights</span>
+    <div class="body">
+      <h2 id="hl-h">What I do best</h2>
+      <div class="three">
+        <div class="item"><span class="kicker">Strongest skill</span><div><h3>Microservice and API design</h3><p>Designing and shipping Java and Spring Boot services and REST APIs for customer-critical, high-traffic flows, from flight booking to real-time flight status.</p></div></div>
+        <div class="item"><span class="kicker">Top accomplishment</span><div><h3>$700,000 saved every year</h3><p>Delivered US Bank's paperless-preferences feature end to end, backend services plus a React front end for desktop and mobile, eliminating $700K in annual print and mail cost.</p></div></div>
+        <div class="item"><span class="kicker">Signature project</span><div><h3>GILL, the Global Loan Locator</h3><p>Designed and built US Bank's loan-locator microservice from a blank repository: loan-management features, performance optimization and 80%+ test coverage.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="proof-h">
+    <span class="kicker">Proof</span>
+    <div class="body">
+      <h2 id="proof-h">Three reasons I can do this job</h2>
+      <div class="proofs">
+        <div class="pf"><div><h3>I deliver measurable business value</h3><p>My paperless billing work saves US Bank $700K a year, and my query tuning cut processing time by 30%.</p></div></div>
+        <div class="pf"><div><h3>I make teams ship faster and safer</h3><p>At Southwest Airlines I replaced 80% of manual testing with Selenium and REST Assured automation; at US Bank I held coverage above 80% and cleared Sonar quality gates.</p></div></div>
+        <div class="pf"><div><h3>I've been trusted with critical systems at scale</h3><p>Airline booking and cancellations, mortgage and loan services, and Apple Store systems used by retail teams around the world.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="about-h">
+    <span class="kicker">About</span>
+    <div class="body">
+      <h2 id="about-h">About me</h2>
+      <p class="prose">I'm a backend engineer who thinks like a tester. I've spent my career on systems where an outage costs real money and real trust, and that has shaped how I work: clear API contracts, code that's easy to review, and automated tests that let a team release with confidence.</p>
+      <p class="prose">I started in cybersecurity and quality engineering at Deloitte, earned my M.S. in Computer Science at Georgia State, and have since built production services at Apple, US Bank and Southwest Airlines. I'm now going deeper into cloud platforms, distributed systems and scalable architecture.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="skills-h">
+    <span class="kicker">Skills</span>
+    <div class="body">
+      <h2 id="skills-h">Technical skills</h2>
+      <dl class="skills">
+        <dt>Languages</dt><dd><span class="chip">Java</span><span class="chip">SQL</span><span class="chip">JavaScript</span><span class="chip">C / C++</span></dd>
+        <dt>Backend</dt><dd><span class="chip">Spring Boot</span><span class="chip">Spring</span><span class="chip">Hibernate / JPA</span><span class="chip">REST</span><span class="chip">SOAP</span><span class="chip">OAuth2 / JWT</span><span class="chip">Kafka</span></dd>
+        <dt>Testing</dt><dd><span class="chip">JUnit</span><span class="chip">TestNG</span><span class="chip">Mockito</span><span class="chip">REST Assured</span><span class="chip">Selenium</span><span class="chip">Cucumber</span></dd>
+        <dt>Data</dt><dd><span class="chip">Oracle</span><span class="chip">SQL Server</span><span class="chip">MongoDB</span><span class="chip">Redis</span><span class="chip">AWS S3</span></dd>
+        <dt>Cloud & DevOps</dt><dd><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Jenkins</span><span class="chip">CloudBees CI</span><span class="chip">Splunk</span><span class="chip">Grafana</span><span class="chip">OpenTelemetry</span></dd>
+        <dt>Frontend</dt><dd><span class="chip">React</span><span class="chip">Angular</span><span class="chip">Vue</span></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section aria-labelledby="experience">
+    <span class="kicker">Experience</span>
+    <div class="body">
+      <h2 id="experience">Experience and projects</h2>
+      <div>
+        <div class="job"><div class="jh"><h3>Southwest Airlines <span>· Senior Software Engineer</span></h3><span class="when">Mar 2024 – Present</span></div>
+          <ul>
+            <li>Build microservices behind <b>booking, change and cancellation</b> flows.</li>
+            <li>Designed REST APIs for the <b>Inbound Flight Tracker</b> and Day of Travel features, delivering real-time flight status.</li>
+            <li>Automated functional and regression testing, <b>reducing manual testing by 80%</b>.</li>
+          </ul></div>
+        <div class="job"><div class="jh"><h3>US Bank <span>· Software Engineer</span></h3><span class="when">Apr 2021 – Feb 2024</span></div>
+          <ul>
+            <li>Built the <b>GILL</b> microservice from scratch, plus mortgage fast-refund, payoff-quote and paperless-preferences services.</li>
+            <li>Shipped paperless billing that <b>saves $700K annually</b>.</li>
+            <li>Improved processing time <b>30%</b> through Oracle SQL tuning; kept test coverage <b>above 80%</b>.</li>
+          </ul></div>
+        <div class="job"><div class="jh"><h3>Apple <span>· Software Engineer</span></h3><span class="when">Nov 2020 – Mar 2021</span></div>
+          <ul>
+            <li>Built backend services for <b>Apple Store event management</b>, used by retail teams across regions.</li>
+            <li>Migrated legacy Spring services to Spring Boot for faster startup and consistent deployments.</li>
+          </ul></div>
+        <div class="job"><div class="jh"><h3>Deloitte <span>· Business Technology Analyst</span></h3><span class="when">Jul 2017 – Dec 2018</span></div>
+          <ul>
+            <li>Cybersecurity monitoring with QRadar, Splunk and LogRhythm; wrote 21 CFR Part 11 compliant test specifications.</li>
+          </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="results-h">
+    <span class="kicker">Results</span>
+    <div class="body">
+      <h2 id="results-h">Results and metrics</h2>
+      <div class="results"><table>
+        <thead><tr><th>Result</th><th>What I did</th><th>Company</th></tr></thead>
+        <tbody>
+          <tr><td class="m">$700K / yr</td><td>Paperless billing feature, backend and front end</td><td>US Bank</td></tr>
+          <tr><td class="m">−80%</td><td>Manual testing replaced by automated regression suites</td><td>Southwest</td></tr>
+          <tr><td class="m">−30%</td><td>Processing time after SQL optimization and tuning</td><td>US Bank</td></tr>
+          <tr><td class="m">80%+</td><td>Unit test coverage with JUnit and TestNG</td><td>US Bank</td></tr>
+          <tr><td class="m">6+ yrs</td><td>Backend engineering across airline, banking and retail</td><td>4 companies</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <span class="kicker">Contact</span>
+    <div class="body">
+      <h2 id="contact-h">Let's talk</h2>
+      <p class="prose">I'm open to senior backend, platform and SDET roles. Email is the fastest way to reach me.</p>
+      <div class="row">
+        <span class="email" id="email">navyanjalikondapaneni@gmail.com</span>
+        <button class="btn primary" id="copy" type="button">Copy email</button>
+        <a class="btn" href="mailto:navyanjalikondapaneni@gmail.com">Send email</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>Navyanjali Kondapaneni · Senior Software Engineer</footer>
+</div>
+
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var b=this, el=document.getElementById('email'), t=el.textContent;
+  function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},1600)}
+  function fallback(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected, press Ctrl+C'}
+  try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
+});
+</script>
+</body>
+</html>
